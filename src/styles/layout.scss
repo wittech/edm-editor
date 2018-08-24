@@ -1,0 +1,17 @@
+.main{
+    width: 100%;
+    height: 100vh;
+}
+
+.main-control {
+    width: $control-width;
+    height: 100%;
+    float: left;
+    background: $bg-color;
+}
+
+.main-view {
+    width: calc(100vw - #{$control-width});
+    float: left;
+    height: 100%;
+}
