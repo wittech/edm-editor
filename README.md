@@ -8,16 +8,16 @@ One tool for all the FEs who are injured by EDM
 
 ## 开发流程
 
-### 1. UI库
-引入 happy-ui 组件库
 
-### 2. edm的数据结构
+### 1. edm的数据结构
 edm 数据结构和建站一样的
 通过path属性定位
 
-### 3. 操作
+### 2. 操作
 mobx深检测，通过引用，更新想要更新的部分   
 操作完成会在localstorage同步数据
 
-### 4. 用户交互封装
+### 3. 用户交互封装
 单击选中，左侧显示，右侧编辑
+
+
