@@ -1,0 +1,55 @@
+@mixin full-screen {
+    position: fixed;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.ze-mask{
+    background: rgba(0, 0, 0, 0.5);
+    @include full-screen
+}
+.ze-layer{
+    text-align: center;
+    @include full-screen
+}
+.ze-dialog {
+    text-align: left;
+    position: relative;
+    z-index: 9999;
+    box-shadow: $shadow;
+    width: auto;
+    max-width: calc(100vw - 32px);
+    min-width: 480px;
+    display: inline-block;
+    background: #fff;
+    top: 0%;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: all ease-in-out .3s;
+    &-title{
+        padding: 16px;
+        font-size: 18px;
+        color: #333;
+        border-bottom: 1px solid #ccc;
+    }
+    &-body {
+        padding: 16px;
+    }
+    &-cancel {
+        position: absolute;
+        right: -32px;
+        font-size: 32px;
+        font-weight: bold;
+        top: -16px;
+        transform: rotate(45deg);
+        cursor: pointer;
+        color: #fff;
+        text-shadow: $shadow;
+    }
+    &.ze-middle{
+        top: 50%;
+        transform: translateY(-70%);
+    }
+}

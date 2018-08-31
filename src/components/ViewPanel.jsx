@@ -1,14 +1,17 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
+import { mapContent } from 'util/calc'
 
-@inject('testStore')
+
+@inject('canvasStore')
 @observer
 export default class Control extends React.Component {
   render() {
-    const {count} = this.props.testStore
+    const { content } = this.props.canvasStore
+
     return (
       <div className="main-view">
-        {count}
+        {mapContent(content)}
       </div>
     )
   }

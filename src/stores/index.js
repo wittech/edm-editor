@@ -1,5 +1,5 @@
-import TestStore from './test'
+import CanvasStore from './canvas'
 
 export default {
-  testStore: new TestStore()
+  canvasStore: new CanvasStore()
 }

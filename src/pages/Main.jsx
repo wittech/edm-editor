@@ -1,14 +1,21 @@
 import React from 'react'
-import View from '../components/View'
-import Control from '../components/Control'
+import store from 'stores'
+import '../styles/index.scss'
+
+import ViewPanel from '../components/ViewPanel'
+import ControlPanel from '../components/ControlPanel'
+import { Provider } from 'mobx-react'
 
 export default class Main extends React.Component {
+  state = {}
   render() {
     return (
-      <div className="main">
-        <View />
-        <Control />
-      </div>
+      <Provider {...store}>
+        <div className="main">
+          <ViewPanel />
+          <ControlPanel />
+        </div>
+      </Provider>
     )
   }
 }
