@@ -1,30 +1,39 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
-import CanvasManager from 'manager/CanvasManger'
-import RowManager from 'manager/RowManger'
-import CellManager from 'manager/CellManager'
+import StructureManager from 'manager/StructureManager'
+import StyleManager from 'manager/StyleManager'
+import ToolManager from 'manager/ToolManager'
+import FileManager from 'manager/FileManager'
 
 @inject('canvasStore')
 @observer
-export default class Control extends React.Component {
-  _renderControl = () => {
-    const { currentSelect } = this.props.canvasStore
-    switch (currentSelect.type){
-      case 'canvas':
-        return <CanvasManager />
-      case 'row':
-        return <RowManager />
-      case 'cell':
-        return <CellManager />
-      default:
-        return null
+export default class ControlPanel extends React.Component {
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleRemove)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleRemove)
+  }
+
+  handleRemove = e => {
+    const { remove } = this.props.canvasStore
+    if (e.target.className.match('main-button')){
+      e.keyCode === 8 && remove()
+    }
+
+    if (e.target === document.body){
+      e.keyCode === 8 && remove()
     }
   }
 
   render() {
     return (
       <div className="main-control">
-        {this._renderControl()}
+        <ToolManager />
+        <FileManager />
+        <StyleManager />
+        <StructureManager />
       </div>
     )
   }

@@ -1,42 +1,27 @@
 import React from 'react'
-import { Button, TextFiled } from 'ui'
-import store from 'stores'
+import { TextFiled } from 'ui'
 import { observer, inject } from 'mobx-react'
 import { autorun } from 'mobx'
-
-export class DeleteControl extends React.Component {
-  handleDelete = () => {
-    const { remove } = store.canvasStore
-    remove()
-  }
-
-  render() {
-    return (
-      <Button type="primary" onClick={this.handleDelete}>Delete</Button>
-    )
-  }
-}
+import _s from 'underscore.string'
 
 @inject('canvasStore')
 @observer
 export class FiledControl extends React.Component {
   state = {
-    value: this.props.canvasStore.currentSelect[this.props.attr],
-    renderOver: false
+    value: this.currentValue,
+    renderOver: false,
   }
 
-  componentDidMount(){
-    autorun(() => {
-      this.resetValue()
-    })
+  componentDidMount() {
+    autorun(() => this.resetValue())
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.resetValue = () => false
   }
 
   resetValue = () => {
-    this.setState({ value: this.props.canvasStore.currentSelect[this.props.attr] })
+    this.setState({ value: this.currentValue })
   }
 
   handleChange = e => {
@@ -45,15 +30,25 @@ export class FiledControl extends React.Component {
 
   handleEnter = e => {
     const { update } = this.props.canvasStore
-    update({ [e.target.name]: e.target.value })
+    const { isStyle, attr } = this.props
+    const updated = isStyle ? { style: { [attr]: e.target.value } } : { [attr]: e.target.value }
+    update(updated)
+  }
+
+  get currentValue() {
+    const { canvasStore, isStyle, attr } = this.props
+
+    return isStyle ? canvasStore.currentSelect.style[attr] : canvasStore.currentSelect[attr]
   }
 
   render() {
-    const { attr } = this.props
+    const { attr, type, label } = this.props
     const { value } = this.state
 
     return <TextFiled
-      label={`${attr}:`}
+      full={true}
+      type={type || 'text'}
+      label={`${label || _s.decapitalize(_s.humanize(attr))}`}
       name={attr}
       value={value}
       onChange={this.handleChange}

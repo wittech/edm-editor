@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import * as React from 'react'
+import { RippleBlock } from '../ripple'
 
 interface Props {
     head?: any
@@ -6,9 +7,10 @@ interface Props {
     onChange?: Function
     beforeChange?: Function
     style?: any
+    resetHeight?: Function
     className?: string
 }
-export default class Collapse extends Component<Props> {
+export default class Collapse extends React.Component<Props> {
     duration = 300
 
     panelWrapper: any = React.createRef()
@@ -51,9 +53,12 @@ export default class Collapse extends Component<Props> {
     }
 
     componentDidMount() {
+        this.setHeight()
+    }
+
+    setHeight = () => {
         const panelHeight = this.panel.current.offsetHeight
         this.panelHeight = panelHeight
-        // 在默认情况下我们使用'auto'的height作为展开的高度，但是他是没有动画效果的，为此我们将高度提前转化为px
         if (this.state.isShow) {
             this.panelWrapper.current.style.height = panelHeight + 'px'
         }
@@ -64,12 +69,13 @@ export default class Collapse extends Component<Props> {
         const { isShow, status } = this.state
         return (
             <div className={'ze-collapse' + (className ? ' ' + className : '')} style={style}>
-                {head && <div
+                {head && <RippleBlock
+                    fill={'rgba(0, 0, 0, 0.1)'}
                     className={'ze-collapse-head ze-clickable'}
                     onClick={this.handleCollapse}
                 >
                     {head}
-                </div>}
+                </RippleBlock>}
                 <div
                     ref={this.panelWrapper}
                     className={'ze-collapse-body' + (status === 0 ? ' collapsed' : '')}

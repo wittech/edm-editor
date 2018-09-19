@@ -1,12 +1,14 @@
 {
   "presets": [
     "env",
-    "react"
+    "react",
+    "es2017"
   ],
   "plugins": [
     "transform-object-rest-spread",
     "transform-decorators-legacy",
     "transform-class-properties",
-    "react-hot-loader/babel"
+    "react-hot-loader/babel",
+    "transform-runtime"
   ]
 }

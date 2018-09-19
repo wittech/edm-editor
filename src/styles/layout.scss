@@ -1,56 +1,95 @@
-.main{
-    width: 100%;
-    height: 100vh;
-    display: flex;
+.main {
+  width: 100%;
+  height: 100vh;
+  display: flex;
 }
 
 .main-control {
-    width: $control-width;
-    height: 100%;
-    float: left;
-    background: #fff;
-    position: relative;
-    box-shadow: -4px 4px 8px #ccc;
+  width: $control-width;
+  height: 100%;
+  float: left;
+  background: #fff;
+  position: relative;
+  box-shadow: -2px 2px 6px #ccc;
+  overflow-y: scroll;
+}
+
+.main-tool-bar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background: #fff;
+  width: $toolbar-width;
+  box-shadow: -2px 2px 6px #ccc;
+  .ze-btn {
+    width: $toolbar-width;
+    height: $toolbar-width;
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+  }
 }
 
 .main-view {
-    width: calc(100vw - #{$control-width});
-    float: left;
-    height: 100vh;
-    background: #eee;
-    overflow: auto;
-    padding: 30px;
-    box-sizing: border-box;
+  width: calc(100vw - #{$control-width});
+  float: left;
+  height: 100vh;
+  background: #ccc;
+  overflow: auto;
+  padding: 30px;
+  box-sizing: border-box;
 }
 
-.main-canvas {
-    background: #fff;
-    margin: 0px auto;
-    box-shadow: -4px 4px 8px #ccc;
+.main-file-manager {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: $toolbar-width;
+  .ze-btn {
+    width: $toolbar-width;
+    height: $toolbar-width;
+    padding: 0;
+    border: none;
+    border-top: 1px solid #ccc;
+    font-weight: bold;
+  }
 }
 
-.main-canvas,
-.main-row,
-.main-cell {
-    transition: all ease 0.2s;
+.main-style-control {
+  .main-style-setting {
+    height: 250px;
+    overflow-y: scroll;
+  }
 }
 
-.main-row {
-    border-bottom: 1px solid #ccc;
-    position: relative;
+.main-structure {
+  &-group {
+    padding: 20px 20px;
+    overflow: hidden;
+  }
+  &-item {
     display: flex;
-}
-
-.main-cell {
-    height: 100%;
-    background: #ddd;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    outline: 1px solid #ccc;
+    &:hover {
+      outline: 2px solid $primary-color;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  &-span {
+    height: 30px;
+    margin-right: 10px;
+    outline: 1px dashed #aaa;
+    background-color: #ECF3FC;
     float: left;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-}
-
-.current-select {
-    outline: 1px solid #000;
-    position: relative;
-    z-index: 100;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 }

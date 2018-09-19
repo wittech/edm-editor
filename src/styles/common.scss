@@ -1,7 +1,27 @@
 .form-group {
-    padding: 16px;
+    padding: 10px 20px;
     box-sizing: content-box;
+    overflow: hidden;
     .form-control {
-        margin-bottom: 16px;
+        margin-bottom: 20px;
+        width: 47.5%;
+        float: left;
+        &:nth-child(2n+1) {
+            margin-right: 5%;
+        }
     }
+    .form-control:last-child{
+        margin-bottom: 0;
+    }
+}
+
+@for $i from 1 through 12 {
+    .col-#{$i} {
+        width: 100% / 12 * $i;
+    }
+}
+
+
+table {
+    border-collapse: collapse;
 }

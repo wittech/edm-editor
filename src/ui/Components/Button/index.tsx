@@ -22,7 +22,7 @@ interface Props {
     shadow?: boolean
 }
 
-export default class Button extends React.Component<Props> {
+export class Button extends React.Component<Props> {
     status = 1
 
     ripple: any = React.createRef()
@@ -41,13 +41,10 @@ export default class Button extends React.Component<Props> {
         if (this.props.disabled) {
             return false
         }
-        this.createRipple(e)
+        if (this.status) {
+            this.ripple.current.createRipple(e, !this.props.type && 'rgba(0, 0, 0, 0.1)')
+        }
         this.props.onMouseDown && this.props.onMouseDown(e)
-    }
-
-    createRipple = e => {
-        if (!this.status) return false
-        this.ripple.current.createRipple(e)
     }
 
     render() {
@@ -82,7 +79,11 @@ export default class Button extends React.Component<Props> {
     }
 }
 
-
+export function ButtonGroup(props) {
+    return <div className="ze-btn-group">
+        {props.children}
+    </div>
+}
 
 
 

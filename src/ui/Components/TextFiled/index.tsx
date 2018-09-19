@@ -5,11 +5,12 @@ interface Porps {
     error?: boolean
     label?: any
     message?: string
+    full?: boolean
     onEnter?: Function
 }
 
 export class TextFiledGroup extends React.Component<Porps & React.InputHTMLAttributes<HTMLInputElement>> {
-    
+
 }
 
 
@@ -31,22 +32,22 @@ export class TextFiled extends React.Component<Porps & React.InputHTMLAttributes
 
     handleKeyDown = e => {
         this.props.onKeyDown && this.props.onKeyDown(e)
-        if(e.keyCode === 13 && this.props.onEnter){
+        if (e.keyCode === 13 && this.props.onEnter) {
             this.props.onEnter(e)
         }
     }
 
     render() {
-        const { error, label, message, required, disabled, onEnter, ...rest } = this.props
+        const { error, label, message, required, disabled, onEnter, full, ...rest } = this.props
         const { focus } = this.state
         return (
-            <div className="ze-input-container">
+            <div className={'ze-input-container' + (full ? ' ze-full' : '')}>
+                {label && <label className="ze-input-label">{label}</label>}
                 <div className={'ze-input-wrapper'
                     + (focus ? ' ze-focus' : '')
                     + (error ? ' ze-error' : '')
                     + (required ? ' ze-required' : '')
                     + (disabled ? ' ze-disabled' : '')}>
-                    {label && <label className="ze-input-label">{label}</label>}
                     <input
                         {...rest}
                         disabled={disabled}

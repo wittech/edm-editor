@@ -1,10 +1,22 @@
 .ze-input-container {
     width: auto;
     display: inline-block;
+    &.ze-full {
+        width: 100%;
+        .ze-input-wrapper{
+            width: 100%;
+            .ze-input {
+                width: 100%;
+            }
+        }
+    }
     .ze-input-message {
         margin-top: 4px;
         font-size: 12px;
         color: #999;
+    }
+    .ze-input-label {
+        display: block;
     }
     .ze-input-wrapper {
         display: inline-block;
@@ -26,9 +38,6 @@
             &+.ze-input-message {
                 color: $danger-color;
             }
-        }
-        .ze-input-label {
-            margin-right: 8px;
         }
         &.ze-required {
             .ze-input-label {
@@ -57,7 +66,7 @@
     bottom: -1px;
     height: 2px;
     transition: all ease 0.3s;
-    background: #666;
+    background: $primary-color;
 }
 
 .ze-input-wrapper::before {

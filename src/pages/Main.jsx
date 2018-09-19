@@ -1,10 +1,10 @@
 import React from 'react'
 import store from 'stores'
 import '../styles/index.scss'
-
+import { Provider } from 'mobx-react'
 import ViewPanel from '../components/ViewPanel'
 import ControlPanel from '../components/ControlPanel'
-import { Provider } from 'mobx-react'
+
 
 export default class Main extends React.Component {
   state = {}

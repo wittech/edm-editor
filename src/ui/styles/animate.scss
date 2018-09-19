@@ -1,0 +1,87 @@
+@keyframes ze-move-in {
+  0% {
+    display: none;
+    opacity: 0;
+    margin-top: -30px;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 0px;
+  }
+}
+
+@keyframes ze-move-out {
+  0% {
+    opacity: 1;
+    margin-top: 0px;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -30px;
+  }
+}
+
+@keyframes ze-dialog-move-in {
+  0% {
+    display: none;
+    opacity: 0;
+    margin-top: -100px;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 0px;
+  }
+}
+
+@keyframes ze-dialog-move-out {
+  0% {
+    opacity: 1;
+    margin-top: 0px;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -100px;
+  }
+}
+
+@keyframes ze-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ze-fade-out {
+  0% {
+    opacity: 1;
+    display: block;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.ze-move-in {
+  animation: ze-move-in 0.3s ease-out  1 forwards;
+}
+.ze-move-out {
+  animation: ze-move-out 0.3s ease-in  1 forwards;
+}
+.ze-dialog-move-in {
+  animation: ze-dialog-move-in 0.3s ease-out  1 forwards;
+}
+.ze-dialog-move-out {
+  animation: ze-dialog-move-out 0.3s ease-in  1 forwards;
+}
+.ze-fade-in {
+  opacity: 0;
+  display: none;
+  animation: ze-fade-in 0.3s ease-in  1 forwards;
+}
+.ze-fade-out {
+  opacity: 1;
+  animation: ze-fade-out 2s ease-out  1 forwards;
+}

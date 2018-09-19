@@ -1,0 +1,48 @@
+
+.main-canvas {
+  background: #fff;
+  margin: 0px auto;
+  box-shadow: -4px 4px 8px #ccc;
+  display: table;
+}
+
+.main-canvas,
+.main-row,
+.main-cell,
+.main-cell div {
+  position: relative;
+  transition: all ease 0.2s;
+}
+
+.main-row {
+  display: table-row;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+}
+
+.main-cell {
+  border: 1px dashed #ccc;
+}
+
+.main-text {
+  transition: all ease 0.3s;
+}
+
+.main-button {
+  transition: all ease 0.3s;
+}
+
+.current-select {
+  outline: 1px solid #000;
+  position: relative;
+  z-index: 100;
+}
+
+.current-select.main-canvas {
+  outline: none;
+}
+
+.current-select.main-cell {
+  outline: none;
+  border: 1px solid #000;
+}
