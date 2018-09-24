@@ -2,32 +2,31 @@ import { observable, action } from 'mobx'
 import _ from 'lodash'
 
 
+const randomID = () => Number(new Date()) + parseInt(Math.random()*10000)
 const defaultContent = {
   type: 'canvas',
-  path: '/',
   style: {
-    width: 500, padding: 20,
+    width: 500,
   },
-  content: {},
+  children: [],
 }
 
 export default class CanvasStore {
   @observable title = ''
   @observable name = ''
   @observable content = JSON.parse(localStorage.getItem('edmContent')) || defaultContent
+  @observable content = defaultContent
   @observable history = []
   @observable currentSelect = this.find('/')
   @observable currentSelectElement = null
-  @observable currentDragGoal = null
-  @observable currentDrag = null
-  @observable dragType = 'row'
+
   find = path => {
-    const posArr = path.split('/')
     let select = this.content
-    posArr.forEach(pos => {
-      if (pos) {
-        select = select.content[pos]
-      }
+    if (!path) return select
+    const idArr = path.split('/')
+
+    idArr.forEach(id => {
+      select = select.children.find(child => child.id.toString() === id.toString()) || select
     })
 
     return select
@@ -58,25 +57,18 @@ export default class CanvasStore {
 
   @action
   remove = path => {
-    const factPath = path || this.currentSelect.path
-    if (!factPath || factPath === '/') return false
+    path = path || this.currentSelect.path
+    const idArr = path.split('/')
+    const parentPath = idArr.slice(0, -1).join('/')
+    const parent = this.find(parentPath)
+    parent.children = parent.children.filter(child => child.path !== path)
 
-    const parent = this.findParent(factPath)
-    const originContent = parent.content
-    parent.content = {}
-    for (const key in originContent) {
-      if (originContent[key].path !== factPath) {
-        parent.content[key] = originContent[key]
+    if (parent.type === 'row'){
+      if (parent.children.length === 0){
+        this.remove(parent.path)
+      } else {
+        this.select(parent)
       }
-    }
-
-    if (parent.type === 'row' && !Object.entries(parent.content).length) {
-      return this.remove(parent.path)
-    }
-
-    this.select(parent.path)
-    if (parent.type === 'row') {
-      this.select(Object.entries(parent.content)[0][1].path)
     }
 
     return this.save()
@@ -85,18 +77,11 @@ export default class CanvasStore {
   @action
   insertContent = (content, path) => {
     const select = path ? this.find(path) : this.currentSelect
-    const randomID = Number(new Date())
-    content.path = `${select.path === '/' ? '' : select.path}/${randomID}`
 
-    if (content.type.match(/canvas|row|cell/) && !content.content) {
-      content.content = {}
-    }
-
-    select.content[randomID] = content
-
-    if (content.type.match(/canvas|row|cell/)) {
-      this.select(content.path)
-    }
+    const id = randomID()
+    content.path = `${select.path === '/' ? '' : select.path}/${id}`
+    content.id = id
+    select.children.push(content)
     this.save()
   }
 
@@ -105,58 +90,67 @@ export default class CanvasStore {
    * 插入一行需要考虑，插入
    */
   @action
-  insertRow = (cells) => {
+  insertRow = (cells, beforePath, pos) => {
     cells = cells || [12]
     const select = this.find('/')
-    const randomID = Number(new Date())
-    const content = {
+    const rowId = randomID()
+    const rowPath = rowId
+    const row = {
+      id: rowId,
       type: 'row',
-      path: `${select.path === '/' ? '' : select.path}/${randomID}`,
-      content: {},
+      path: rowPath.toString(),
+      children: [],
     }
 
-    cells.forEach((cellSpan, index) => {
-      const randomID = Number(new Date()) + index
-      content.content[randomID] = {
-        type: 'col',
-        path: `${content.path}/${randomID}`,
-        style: { width: `${100 / 12 * cellSpan}%`, height: 100, textAlign: 'left' },
-        content: {},
-      }
+    cells.forEach((cellSpan) => {
+      const cellId = randomID()
+      const path = `${rowPath}/${cellId}`
+      const style = { width: `${100 / 12 * cellSpan}%`, minHeight: 100, textAlign: 'left' }
+      row.children.push({
+        id: cellId,
+        type: 'cell',
+        path,
+        style,
+        children: [],
+      })
     })
 
-    select.content[randomID] = content
+    if (beforePath){
+      const index = select.children.findIndex(item => item.path === beforePath)
+      index === -1 && console.error('unknown path')
+      index !== -1 && select.children.splice(pos === 'after' ? index+1 : index, 0, row)
+    } else {
+      select.children.push(row)
+    }
+
     this.save()
   }
 
   @action
-  dragEnd = () => {
-    const parent = this.findParent(this.currentDrag)
-    const { content } = parent
-    const contentArr = Object.entries(content)
+  moveRow = (path, toPath, pos) => {
+    const rows = this.find('/').children
 
-    let findGoal = false
-    let findDrag = false
-    contentArr.forEach(([id, content], index) => {
-      console.log(id)
-      if (content.path === this.currentDrag) {
-        findDrag = index
+    let index, toIndex
+    rows.forEach((row, i) => {
+      if (row.path === path) {
+        index = i
       }
-      if (content.path === this.currentDragGoal) {
-        findGoal = index
+      if (row.path === toPath) {
+        toIndex = i
       }
     })
+    const originRow = rows.splice(index, 1)[0]
+    rows.splice(pos === 'after' ? toIndex+1 : toIndex, 0, originRow)
+  }
 
-    const dragContent = contentArr.splice(findDrag, 1)
-    contentArr.splice(findGoal, 0, dragContent[0])
-    const currentContent = contentArr.reduce((pre, cur) => {
-      const [id, content] = cur
-      pre[id] = content
+  @action
+  copy = () => {
 
-      return pre
-    }, {})
-    console.log(currentContent)
-    parent.content = currentContent
+  }
+
+  @action
+  paste = () => {
+
   }
 
   save = () => {

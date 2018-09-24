@@ -14,7 +14,8 @@ module.exports = {
       "max": 2,
       "maxBOF": 0,
       "maxEOF": 1,
-    }]
+    }],
+    "linebreak-style": 0
   },
   "parserOptions": {
     "ecmaVersion": 2018

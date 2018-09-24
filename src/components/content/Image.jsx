@@ -14,16 +14,28 @@ export default class Image extends React.Component {
     this.setState({ edit: true })
   }
 
-  render() {
-    const { data } = this.props
+  renderImg = ()=> {
+    const { path, style, src } = this.props
 
     return (
-      <Selectable path={data.path}>
-        <img
-          className={`main-image ${store.canvasStore.currentSelect.path === data.path ? 'current-select' : ''}`}
-          style={styler({ ...data.style })}
-          src={data.src}
-        />
+      <img
+        className={`main-image ${store.canvasStore.currentSelect.path ===path ? 'current-select' : ''}`}
+        style={styler({ ...style })}
+        src={src}
+      />
+    )
+  }
+
+  render() {
+    const { path, href } = this.props
+
+    return (
+      <Selectable path={path}>
+        {
+          href
+            ? <a href={href}>{this.renderImg()}</a>
+            : this.renderImg()
+        }
       </Selectable>
     )
   }

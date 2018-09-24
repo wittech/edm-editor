@@ -3,7 +3,7 @@ import { Collapse } from 'ui'
 import store from 'stores'
 
 
-const sturctureGroup = [
+export const sturctureGroup = [
   [12],
   [6, 6],
   [4, 4, 4],
@@ -14,8 +14,13 @@ const sturctureGroup = [
 ]
 
 export default class StructureManager extends Component {
-  handleInsertRow = index => {
-    store.canvasStore.insertRow(sturctureGroup[index])
+  handleDragStart = (e, rowType) => {
+    e.dataTransfer.setData('type', 'row-insert')
+    e.dataTransfer.setData('row-type', rowType)
+  }
+
+  handleDbClick = type => {
+    store.canvasStore.insertRow(sturctureGroup[type])
   }
 
   render() {
@@ -26,7 +31,12 @@ export default class StructureManager extends Component {
         >
           <div className="main-structure-group">
             {sturctureGroup.map((item, index) => (
-              <div key={index} className="main-structure-item" onClick={() => this.handleInsertRow(index)}>
+              <div
+                key={index}
+                draggable="true"
+                className="main-structure-item"
+                onDragStart={e => this.handleDragStart(e, index)}
+              >
                 {item.map((span, index) => <div key={index} className={`main-structure-span col-${span}`} />)}
               </div>
             ))}

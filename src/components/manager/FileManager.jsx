@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Button, Dialog, message } from 'ui'
+import { Button, Dialog, message, TextFiled } from 'ui'
 import store from 'stores'
 
 
 export default class FileManager extends Component {
   state = {
     exportOpen: false,
+    sendOpen: false
   }
 
   canvasHtml = ''
@@ -24,14 +25,18 @@ export default class FileManager extends Component {
     this.setState({ exportOpen: false })
   }
 
+  handleSend = () => {
+    this.setState({ sendOpen: true })
+  }
+
   render() {
-    const { exportOpen } = this.state
+    const { exportOpen, sendOpen } = this.state
 
     return (
       <div className="main-file-manager">
         <Button onClick={this.handleSave}>S</Button>
         <Button onClick={this.handleExport}>E</Button>
-        <Button>R</Button>
+        <Button onClick={this.handleSend}>S</Button>
 
         <Dialog
           open={exportOpen}
@@ -39,6 +44,14 @@ export default class FileManager extends Component {
           onCancel={this.handleCancel}
         >
           {this.canvasHtml}
+        </Dialog>
+
+        <Dialog
+          open={sendOpen}
+          title="发送邮件"
+          onCancel={() => this.setState({sendOpen: false})}
+        >
+          <TextFiled label="收件人"/>
         </Dialog>
       </div>
     )

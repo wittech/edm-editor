@@ -5,6 +5,7 @@ import StyleManager from 'manager/StyleManager'
 import ToolManager from 'manager/ToolManager'
 import FileManager from 'manager/FileManager'
 
+
 @inject('canvasStore')
 @observer
 export default class ControlPanel extends React.Component {
@@ -25,6 +26,9 @@ export default class ControlPanel extends React.Component {
     if (e.target === document.body){
       e.keyCode === 8 && remove()
     }
+  }
+
+  handleCopy = () => {
   }
 
   render() {

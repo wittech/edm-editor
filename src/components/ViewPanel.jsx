@@ -5,7 +5,7 @@ import Text from './content/Text'
 import Image from './content/Image'
 import Canvas from './content/Canvas'
 import Row from './content/Row'
-import Col from './content/Col'
+import Cell from './content/Cell'
 
 
 const getComponent = type => {
@@ -15,8 +15,8 @@ const getComponent = type => {
       Component = Canvas; break
     case 'row':
       Component = Row; break
-    case 'col':
-      Component = Col; break
+    case 'cell':
+      Component = Cell; break
     case 'text':
       Component = Text; break
     case 'button':
@@ -32,18 +32,18 @@ const getComponent = type => {
 }
 
 const render = meta => {
-  const { type, content, path, dragable, ...rest } = meta
+  const { type, children, path, dragable, ...rest } = meta
   const Component = getComponent(type)
-  const children = map(content)
 
-  return <Component key={path} path={path} dragable={dragable} children={children} {...rest} />
+  return <Component key={path} path={path} dragable={dragable} children={ map(children)} {...rest} />
 }
-const map = content => {
-  if (!content || Object.values(content).length === 0) {
+
+const map = children => {
+  if (!children || children.length === 0) {
     return null
   }
 
-  return Object.values(content).map(meta => render(meta))
+  return children.map(meta => render(meta))
 }
 
 @inject('canvasStore')

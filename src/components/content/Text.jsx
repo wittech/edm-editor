@@ -8,18 +8,18 @@ import styler from 'util/styler'
 export default class Text extends React.Component {
   state = {}
   render() {
-    const { data } = this.props
+    const { path, text, style } = this.props
 
     return (
-      <Selectable path={data.path}>
+      <Selectable path={path}>
         <span
-          className={`main-text ${store.canvasStore.currentSelect.path === data.path ? 'current-select' : ''}`}
-          style={styler({ ...data.style })}
+          className={`main-text ${store.canvasStore.currentSelect.path === path ? 'current-select' : ''}`}
+          style={styler({ ...style })}
           suppressContentEditableWarning={true}
           contentEditable={this.state.eidtable}
           onDoubleClick={this.handleEdit}
         >
-          {data.text}
+          {text}
         </span>
       </Selectable>
     )
