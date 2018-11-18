@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 
+
 module.exports = {
   entry: './src/index.jsx',
   mode: 'development',
@@ -13,8 +14,8 @@ module.exports = {
       content: path.resolve(__dirname, '../src/components/content'),
       manager: path.resolve(__dirname, '../src/components/manager'),
       util: path.resolve(__dirname, '../src/util'),
-      stores: path.resolve(__dirname, '../src/stores')
-    }
+      stores: path.resolve(__dirname, '../src/stores'),
+    },
   },
   module: {
     rules: [
@@ -26,15 +27,15 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-            }
+            },
           },
           {
             loader: 'eslint-loader',
             options: {
-              fix: true
-            }
-          }
-        ]
+              fix: true,
+            },
+          },
+        ],
       },
       {
         test: /\.(ts|tsx)$/,
@@ -44,14 +45,14 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-            }
+            },
           },
-          'ts-loader'
-        ]
+          'ts-loader',
+        ],
       },
       {
         test: /\.[s]?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpg|gif|jpeg|svg|eot|woff|ttf)$/,
@@ -60,21 +61,21 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 8192,
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
   ],
   devtool: 'cheap-module-eval-source-map',
   devServer: {
     port: 9001,
     hot: true,
     inline: true,
-    open: true
-  }
+    open: true,
+  },
 }

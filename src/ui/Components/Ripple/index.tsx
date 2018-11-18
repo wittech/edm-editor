@@ -61,12 +61,14 @@ const appendRipple = (wrapper, e, fill) => {
 
     const remove = () => {
         target.removeEventListener('mouseup', remove)
+        target.removeEventListener('mouseout', remove)
         ripple.endEl.beginElement()
         setTimeout(() => {
             wrapper.removeChild(rippleSvg)
         }, dur)
     }
     target.addEventListener('mouseup', remove)
+    target.addEventListener('mouseout', remove)
 }
 
 export default class Ripple extends React.Component {

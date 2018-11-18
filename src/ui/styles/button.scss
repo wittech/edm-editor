@@ -54,6 +54,11 @@
       background: none;
     }
   }
+
+  &-content {
+    position: relative;
+    z-index: 1;
+  }
   @include add-type(primary, $primary-color, $deep-primary-color);
   @include add-type(warning, $warning-color, $deep-warning-color);
   @include add-type(danger, $danger-color, $deep-danger-color);

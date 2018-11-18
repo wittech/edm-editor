@@ -1,28 +1,22 @@
 import React from 'react'
 import store from 'stores'
-import _ from 'lodash'
 
 
-export const Selectable = props => {
-  const handleSelect = e => {
+export class Selectable extends React.Component {
+  handleSelect = e => {
     e.stopPropagation()
 
     // 获取当前选中的
-    store.canvasStore.select(props.path)
-
-    const current = store.canvasStore.currentSelect
-
-
-    if (current.type === 'col') {
-      current.draggable = true
-      // const parent = store.canvasStore.findParent(props.path)
-    }
+    store.canvasStore.select(this.props.path)
   }
 
-  return React.cloneElement(props.children, {
-    onClick: handleSelect,
-  })
+  render() {
+    return React.cloneElement(this.props.children, {
+      onClick: this.handleSelect,
+    })
+  }
 }
+
 
 export const Dragable = props => {
   const last = { x: 0, y: 0 }
@@ -55,7 +49,6 @@ export const Dragable = props => {
     last.y = current.y
     e.target.style.left = 0
     e.target.style.top = 0
-    console.log(e.target)
     e.target.style.transition = 'all ease 0.3s'
     props.onDragEnd && props.onDragEnd(e, last.x, last.y)
   }
@@ -67,14 +60,4 @@ export const Dragable = props => {
     onDragEnd: handleDragEnd,
     onClick: props.onClick,
   })
-}
-
-
-export const findContent = (path) => {
-  const originContent = _.cloneDeep(store.canvasStore.content)
-  const content = path.split('/').reduce((content, pos) => {
-    return pos ? content['content'][pos] : content
-  }, originContent)
-
-  return content || originContent
 }

@@ -55,7 +55,8 @@ export class Button extends React.Component<Props> {
             className,
             shadow,
             style,
-            disabled
+            disabled,
+            ...rest
         } = this.props
         return (
             <button
@@ -71,8 +72,9 @@ export class Button extends React.Component<Props> {
                     + (disabled ? (' ' + 'ze-btn-disabled') : '')
                 }
                 onMouseDown={this.handleMouseDown}
+                {...rest}
             >
-                {this.props.children}
+                <span className={'ze-btn-content'}>{this.props.children}</span>
                 <Ripple ref={this.ripple} />
             </button>
         )

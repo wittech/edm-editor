@@ -40,6 +40,7 @@
   overflow: auto;
   padding: 30px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .main-file-manager {
@@ -90,6 +91,72 @@
     float: left;
     &:last-child {
       margin-right: 0;
+    }
+  }
+}
+
+.main-selector {
+  &-top {
+    height: 2px;
+    width: 0;
+  }
+  &-left {
+    width: 2px;
+    height: 0;
+  }
+  &-right {
+    height: 0px;
+    width: 2px;
+  }
+  &-bottom {
+    height: 2px;
+    width: 0;
+  }
+}
+
+.main-selector-top,
+.main-selector-bottom,
+.main-selector-left,
+.main-selector-right{
+  position: absolute;
+  background-color: #3399ff;
+  // transition: all ease 0.3s;
+}
+
+.main-canvas {
+  outline: none;
+}
+
+.main-text {
+  &:focus{
+    outline: none;
+  }
+}
+
+.main-text,
+.main-button,
+.main-cell{
+  &.selected {
+    outline: 1px solid $primary-color;
+    z-index: 200;
+    position: relative;
+    box-sizing: content-box;
+  }
+}
+
+.main-context-menu {
+  position: fixed;
+  background-color: #eee;
+  border: 1px solid #999;
+  border-radius: 6px;
+  z-index: 500;
+  overflow: hidden;
+  &-item {
+    padding: 6px 15px;
+    cursor: pointer;
+    &:hover {
+      background-color: $primary-color;
+      color: #fff;
     }
   }
 }

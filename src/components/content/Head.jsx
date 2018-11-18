@@ -5,10 +5,8 @@ import styler from 'util/styler'
 import store from 'stores'
 import classnames from 'classnames'
 
-
 @observer
 export default class Text extends React.Component {
-  $text = React.createRef()
   state = {
     editable: false,
   }
@@ -37,25 +35,23 @@ export default class Text extends React.Component {
   }
 
   render() {
-    const { path, text, style, id, selected } = this.props
+    const { path, text, style, id,selected } = this.props
     const { editable } = this.state
 
     return (
       <Selectable path={path}>
-        <p
-          ref={this.$text}
+        <h3
           id={id}
           className={classnames('main-text', selected && 'selected')}
           style={styler({ ...style })}
           suppressContentEditableWarning={true}
-          contentEditable={editable}
           onDoubleClick={this.handleEdit}
-          onBlur={this.handleSave}
+          contentEditable={editable}
           onKeyDown={this.handleKeyDown}
-          tabIndex="0"
+          onBlur={this.handleSave}
         >
           {text}
-        </p>
+        </h3>
       </Selectable>
     )
   }

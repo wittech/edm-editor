@@ -36,6 +36,7 @@ export default class StructureManager extends Component {
                 draggable="true"
                 className="main-structure-item"
                 onDragStart={e => this.handleDragStart(e, index)}
+                onDoubleClick={() => this.handleDbClick(index)}
               >
                 {item.map((span, index) => <div key={index} className={`main-structure-span col-${span}`} />)}
               </div>

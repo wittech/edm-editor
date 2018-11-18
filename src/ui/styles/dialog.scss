@@ -22,7 +22,7 @@
     display: inline-block;
     position: absolute;
     transform: translateY(-50%) translateX(-50%);
-    top: 50%;
+    top: 40%;
     left: 50%;
     z-index: 2;
     width: auto;
@@ -40,7 +40,6 @@
     }
     &-body {
         padding: 20px;
-        height: 500px;
     }
     &-cancel {
         position: absolute;

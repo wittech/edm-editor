@@ -2,7 +2,7 @@ import { observable, action } from 'mobx'
 import _ from 'lodash'
 
 
-const randomID = () => Number(new Date()) + parseInt(Math.random()*10000)
+const randomID = () => Number(new Date()) + parseInt(Math.random() * 10000)
 const defaultContent = {
   type: 'canvas',
   style: {
@@ -20,11 +20,18 @@ export default class CanvasStore {
   @observable currentSelect = this.find('/')
   @observable currentSelectElement = null
 
+  @observable contextMenu = {
+    visible: false,
+    top: 0,
+    left: 0,
+  }
+
+  copyContent = []
+
   find = path => {
     let select = this.content
     if (!path) return select
     const idArr = path.split('/')
-
     idArr.forEach(id => {
       select = select.children.find(child => child.id.toString() === id.toString()) || select
     })
@@ -32,12 +39,9 @@ export default class CanvasStore {
     return select
   }
 
-  findParent = path => this.find(path.split('/').slice(0, -1).join('/'))
-
   @action
   select = (path) => {
-    this.currentSelect = this.find(path)
-    this.currentSelect.dragable = 'true'
+    return this.currentSelect = this.find(path)
   }
 
   @action
@@ -52,6 +56,7 @@ export default class CanvasStore {
         select[key] = updated[key]
       }
     }
+
     this.save()
   }
 
@@ -63,11 +68,11 @@ export default class CanvasStore {
     const parent = this.find(parentPath)
     parent.children = parent.children.filter(child => child.path !== path)
 
-    if (parent.type === 'row'){
-      if (parent.children.length === 0){
+    if (parent.type === 'row') {
+      if (parent.children.length === 0) {
         this.remove(parent.path)
       } else {
-        this.select(parent)
+        this.select(parent.path)
       }
     }
 
@@ -115,10 +120,10 @@ export default class CanvasStore {
       })
     })
 
-    if (beforePath){
+    if (beforePath) {
       const index = select.children.findIndex(item => item.path === beforePath)
       index === -1 && console.error('unknown path')
-      index !== -1 && select.children.splice(pos === 'after' ? index+1 : index, 0, row)
+      index !== -1 && select.children.splice(pos === 'after' ? index + 1 : index, 0, row)
     } else {
       select.children.push(row)
     }
@@ -140,22 +145,58 @@ export default class CanvasStore {
       }
     })
     const originRow = rows.splice(index, 1)[0]
-    rows.splice(pos === 'after' ? toIndex+1 : toIndex, 0, originRow)
+    rows.splice(pos === 'after' ? toIndex + 1 : toIndex, 0, originRow)
+    this.save()
   }
 
   @action
   copy = () => {
-
+    const { type } = this.currentSelect
+    if (type === 'cell') {
+      this.copyContent = this.currentSelect.children
+    }
+    if (type === 'image' || type === 'button' || type === 'text' || type === 'head') {
+      this.copyContent = [this.currentSelect]
+    }
   }
 
   @action
   paste = () => {
-
+    const { type } = this.currentSelect
+    if (type === 'cell') {
+      this.copyContent.forEach(item => {
+        item = _.cloneDeep(item)
+        this.insertContent(item)
+      })
+    }
+    this.save()
   }
 
+  @action
   save = () => {
-    console.log(_.cloneDeep(this.content))
     window.localStorage.setItem('edmContent', JSON.stringify(this.content))
+  }
+
+  @action
+  resizeRowHeight = (height, path) => {
+    const content = this.find(path).children
+    content.forEach(item => {
+      item.style.minHeight = height
+    })
+  }
+
+  @action
+  showContextMenu = e => {
+    this.contextMenu = {
+      visible: true,
+      left: e.clientX,
+      top: e.clientY,
+    }
+  }
+
+  @action
+  hiddenContextMenu = () => {
+    this.contextMenu.visible = false
   }
 }
 

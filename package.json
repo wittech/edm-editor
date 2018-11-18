@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "apollo-client": "^2.4.2",
     "axios": "^0.18.0",
+    "classnames": "^2.2.6",
     "lodash": "^4.17.10",
     "mobx": "^5.0.4",
     "mobx-react": "^5.2.5",
     "react": "^16.4.2",
+    "react-apollo": "^2.1.11",
     "react-dom": "^16.4.2",
     "underscore.string": "^3.3.4"
   },

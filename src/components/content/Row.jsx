@@ -8,7 +8,7 @@ export default class Row extends React.Component {
   el = React.createRef()
   elRect = {}
 
-  componentDidMount(){
+  componentDidMount() {
     this.elRect = this.el.current.getBoundingClientRect()
   }
 
@@ -22,12 +22,12 @@ export default class Row extends React.Component {
     const position = y > center ? 'after' : 'before'
     const type = e.dataTransfer.getData('type')
 
-    if (type === 'row-move'){
+    if (type === 'row-move') {
       const path = e.dataTransfer.getData('path')
       store.canvasStore.moveRow(path, this.props.path, position)
     }
 
-    if (type === 'row-insert'){
+    if (type === 'row-insert') {
       const rowType = e.dataTransfer.getData('row-type')
       store.canvasStore.insertRow(sturctureGroup[rowType], this.props.path, position)
     }
@@ -42,37 +42,32 @@ export default class Row extends React.Component {
     store.canvasStore.currentDragGoal = this.props.path
   }
 
-  handleMouseMove = e => {
-    const y = e.pageY
-    const b = this.elRect.bottom
-
-    if (y > b - 10 && y<b){
-      this.el.current.style.cursor = 's-resize'
-    } else {
-      this.el.current.style.cursor = 'default'
-    }
+  handleMouseOut = () => {
+    const el = this.el.current
+    el.setAttribute('draggable', 'true')
+    el.style.cursor = 'default'
   }
 
   render() {
-    const { path, children } = this.props
+    const { children } = this.props
 
     return (
       <table
         ref={this.el}
         style={{ width: '100%' }}
-        draggable={(store.canvasStore.dragType === 'row').toString()}
+        draggable="true"
         onDragEnter={this.handleDragEnter}
         onDragStart={this.handleDragStart}
         onDragOver={e => {
           e.preventDefault(); e.stopPropagation()
         }}
-        onDrag={this.handleDrag}
+        onMouseOut={this.handleMouseOut}
         onMouseMove={this.handleMouseMove}
         onDrop={this.handleDrop}
       >
         <tbody>
           <tr
-            className={`main-row ${store.canvasStore.currentSelect.path === path ? 'current-select' : ''}`}
+            className={'main-row'}
           >
             {children}
           </tr>

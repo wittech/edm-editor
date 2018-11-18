@@ -6,7 +6,7 @@ import store from 'stores'
 export default class FileManager extends Component {
   state = {
     exportOpen: false,
-    sendOpen: false
+    sendOpen: false,
   }
 
   canvasHtml = ''
@@ -16,10 +16,10 @@ export default class FileManager extends Component {
     message(`保存成功${new Date().getSeconds()}`)
   }
 
-  handleExport = () => {
-    this.setState({ exportOpen: true })
-    this.canvasHtml = document.getElementById('mainView').innerHTML
-  }
+  // handleExport = () => {
+  //   this.setState({ exportOpen: true })
+  //   this.canvasHtml = document.getElementById('mainView').innerHTML
+  // }
 
   handleCancel = () => {
     this.setState({ exportOpen: false })
@@ -30,7 +30,7 @@ export default class FileManager extends Component {
   }
 
   render() {
-    const { exportOpen, sendOpen } = this.state
+    const { sendOpen } = this.state
 
     return (
       <div className="main-file-manager">
@@ -39,19 +39,11 @@ export default class FileManager extends Component {
         <Button onClick={this.handleSend}>S</Button>
 
         <Dialog
-          open={exportOpen}
-          style={{ width: 500 }}
-          onCancel={this.handleCancel}
-        >
-          {this.canvasHtml}
-        </Dialog>
-
-        <Dialog
           open={sendOpen}
           title="发送邮件"
-          onCancel={() => this.setState({sendOpen: false})}
+          onCancel={() => this.setState({ sendOpen: false })}
         >
-          <TextFiled label="收件人"/>
+          <TextFiled full={true} label="收件人" />
         </Dialog>
       </div>
     )

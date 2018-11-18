@@ -1,8 +1,9 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Selectable } from '../builder/ContentUtil'
-import store from 'stores'
 import styler from 'util/styler'
+import classnames from 'classnames'
+
 
 @observer
 export default class Image extends React.Component {
@@ -15,11 +16,12 @@ export default class Image extends React.Component {
   }
 
   renderImg = ()=> {
-    const { path, style, src } = this.props
+    const { style, src, id, selected } = this.props
 
     return (
       <img
-        className={`main-image ${store.canvasStore.currentSelect.path ===path ? 'current-select' : ''}`}
+        id={id}
+        className={classnames('main-image', selected && 'selected')}
         style={styler({ ...style })}
         src={src}
       />

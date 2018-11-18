@@ -6,6 +6,8 @@ import Image from './content/Image'
 import Canvas from './content/Canvas'
 import Row from './content/Row'
 import Cell from './content/Cell'
+import Head from './content/Head'
+import store from 'stores'
 
 
 const getComponent = type => {
@@ -23,6 +25,8 @@ const getComponent = type => {
       Component = Button; break
     case 'image':
       Component = Image; break
+    case 'head':
+      Component = Head; break
     default:
       console.warn('invalid type')
       Component = Canvas
@@ -32,10 +36,18 @@ const getComponent = type => {
 }
 
 const render = meta => {
-  const { type, children, path, dragable, ...rest } = meta
+  const { type, children, path, dragable, id, ...rest } = meta
   const Component = getComponent(type)
 
-  return <Component key={path} path={path} dragable={dragable} children={ map(children)} {...rest} />
+  return <Component
+    key={path}
+    path={path}
+    id={id}
+    selected={store.canvasStore.currentSelect.id === id}
+    dragable={dragable}
+    children={map(children)}
+    {...rest}
+  />
 }
 
 const map = children => {
@@ -46,14 +58,16 @@ const map = children => {
   return children.map(meta => render(meta))
 }
 
+
 @inject('canvasStore')
 @observer
 export default class View extends React.Component {
   render() {
     const { content } = this.props.canvasStore
 
+
     return (
-      <div className="main-view" id="mainView">
+      <div className="main-view" id="mainView" style={{ position: 'relative' }}>
         {render(content)}
       </div>
     )

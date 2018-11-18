@@ -56,3 +56,15 @@ export class FiledControl extends React.Component {
     />
   }
 }
+
+export class ColorPicker extends React.Component {
+  componentDidMount(){
+
+  }
+
+  render(){
+    return (
+      <div>lalalal</div>
+    )
+  }
+}

@@ -1,19 +1,21 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Selectable, Dragable } from '../builder/ContentUtil'
-import store from 'stores'
 import styler from 'util/styler'
+import classnames from 'classnames'
+
 
 @observer
 export default class Text extends React.Component {
   render() {
-    const { path, style, text } = this.props
+    const { path, style, text, id, selected } = this.props
 
     return (
       <Selectable path={path}>
         <Dragable>
           <button
-            className={`main-button ${store.canvasStore.currentSelect.path === path ? 'current-select' : ''}`}
+            id={id}
+            className={classnames('main-button', selected && 'selected')}
             style={styler({ ...style })}
           >
             {text}
